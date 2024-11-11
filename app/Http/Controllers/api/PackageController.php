@@ -131,7 +131,9 @@ class PackageController extends Controller
 
                 $travel->delete();
 
-                return response()->json(['message' => 'Travel e relacionamentos apagados com sucesso.']);
+                return response()->json(['message' => 'Entrega apagada com sucesso!']);
+            } else {
+                return response()->json(['message' => 'Entrega não encontrada!']);
             }
         } catch (\Exception $e) {
             return response()->json([
