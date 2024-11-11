@@ -12,7 +12,7 @@ class VerifyTokenMiddleware
     {
         $client = new Client();
         $token = $request->bearerToken();
-        $response = $client->request('GET', 'http://18.209.111.19:82/api/verify-token', [
+        $response = $client->request('GET', 'http://54.198.88.58:82/api/verify-token', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
                 'Accept' => 'application/json',
