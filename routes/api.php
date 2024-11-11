@@ -18,7 +18,7 @@ Route::middleware('verify-token')->get('/comms', function () {
     return true;
 });
 
-Route::post('/travel/{user_id}/store', [\App\Http\Controllers\api\PackageController::class, 'store']);
-Route::get('/travel/{user_id}/unsend', [\App\Http\Controllers\api\PackageController::class, 'unsendPack']);
-Route::get('/travel/{user_id}/send', [\App\Http\Controllers\api\PackageController::class, 'sendPack']);
-Route::delete('/travel/{travel_id}', [\App\Http\Controllers\api\PackageController::class, 'deleteTravel']);
+Route::post('/travel/{user_id}/store', [\App\Http\Controllers\api\PackageController::class, 'store'])->middleware('verify-token');
+Route::get('/travel/{user_id}/unsend', [\App\Http\Controllers\api\PackageController::class, 'unsendPack'])->middleware('verify-token');
+Route::get('/travel/{user_id}/send', [\App\Http\Controllers\api\PackageController::class, 'sendPack'])->middleware('verify-token');
+Route::delete('/travel/{travel_id}', [\App\Http\Controllers\api\PackageController::class, 'deleteTravel'])->middleware('verify-token');
