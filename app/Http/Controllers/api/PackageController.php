@@ -17,7 +17,7 @@ class PackageController extends Controller
     public function getTravel($travel_id)
     {
         try {
-            $travel = Travel::where('id', $travel_id)
+            $travel = Travel::where('id_travel', $travel_id)
                 ->with(['arrival', 'output', 'package'])
                 ->first();
 
