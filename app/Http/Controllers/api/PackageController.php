@@ -14,6 +14,23 @@ use Illuminate\Support\Facades\DB;
 
 class PackageController extends Controller
 {
+    public function getTravel($travel_id)
+    {
+        try {
+            $travel = Travel::where('id', $travel_id)
+                ->with(['arrival', 'output', 'package'])
+                ->first();
+
+            return response()->json([
+                'travel' => $travel
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error has occurred',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
     public function sendPack($user_id): JsonResponse
     {
         try {
