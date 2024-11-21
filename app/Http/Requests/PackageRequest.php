@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PackageRequest extends FormRequest
 {
@@ -56,5 +58,9 @@ class PackageRequest extends FormRequest
             'pacote.metrica_altura.required' => 'A métrica da altura é obrigatória.',
             'pacote.metrica_peso.required' => 'A métrica do peso é obrigatória.',
         ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }
