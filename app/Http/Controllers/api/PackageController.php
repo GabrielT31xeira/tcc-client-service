@@ -31,6 +31,23 @@ class PackageController extends Controller
             ], 500);
         }
     }
+
+    public function getTravelArrivalOutput()
+    {
+        try {
+            $travel = Travel::where('sent', '=', 0)
+                ->with(['arrival', 'output'])->get();
+            return response()->json([
+                'travel' => $travel
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error has occurred',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function sendPack($user_id): JsonResponse
     {
         try {

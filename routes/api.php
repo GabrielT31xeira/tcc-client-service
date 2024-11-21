@@ -20,6 +20,7 @@ Route::middleware('verify-token')->get('/comms', function () {
 
 Route::post('/travel/{user_id}/store', [\App\Http\Controllers\api\PackageController::class, 'store'])->middleware('verify-token');
 Route::get('/travel/{user_id}/unsend', [\App\Http\Controllers\api\PackageController::class, 'unsendPack'])->middleware('verify-token');
+Route::get('/all-travel', [\App\Http\Controllers\api\PackageController::class, 'getTravelArrivalOutput'])->middleware('verify-token');
 Route::get('/travel/{user_id}/send', [\App\Http\Controllers\api\PackageController::class, 'sendPack'])->middleware('verify-token');
 Route::get('/travel/{travel_id}', [\App\Http\Controllers\api\PackageController::class, 'getTravel'])->middleware('verify-token');
 Route::delete('/travel/{travel_id}', [\App\Http\Controllers\api\PackageController::class, 'deleteTravel'])->middleware('verify-token');
