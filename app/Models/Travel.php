@@ -17,6 +17,11 @@ class Travel extends Model
         'user_id',
         'sent'
     ];
+    protected $hidden = [
+        'arrival_id',
+        'output_id',
+        'package_id',
+    ];
 
     public function arrival(): hasOne
     {
