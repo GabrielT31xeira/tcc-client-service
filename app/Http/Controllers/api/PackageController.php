@@ -17,8 +17,20 @@ class PackageController extends Controller
     public function updateSend($travel_id)
     {
         try {
-            Travel::where('id_travel', '=', $travel_id)
-                ->update(['sent' => true]);
+            $travel = Travel::where('id_travel', '=', $travel_id)->first();
+
+            if (!$travel) {
+                return response()->json([
+                    'message' => 'Viagem não encontrada.',
+                ], 404);
+            }
+
+            $travel->update(['sent' => true]);
+
+            return response()->json([
+                'message' => 'Status de envio atualizado com sucesso.',
+                'travel' => $travel,
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'An error has occurred',
