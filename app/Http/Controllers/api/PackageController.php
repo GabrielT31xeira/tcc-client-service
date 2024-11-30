@@ -9,7 +9,9 @@ use App\Models\Output;
 use App\Models\Package;
 use App\Models\PackageUser;
 use App\Models\Travel;
+use GuzzleHttp\Client;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PackageController extends Controller
@@ -74,7 +76,7 @@ class PackageController extends Controller
         }
     }
 
-    public function sendPack($user_id): JsonResponse
+    public function sendPack(Request $request, $user_id): JsonResponse
     {
         try {
             $travel = Travel::where('user_id', '=', $user_id)
@@ -87,6 +89,34 @@ class PackageController extends Controller
                     'message' => 'Pacotes não encontrados!',
                 ]);
             }
+
+            $bearerToken = $request->bearerToken();
+            $client = new Client();
+
+            $travel->map(function ($travel_info) use ($client, $bearerToken) {
+                if (isset($travel_info->id_travel)) {
+                    try {
+                        $response = $client->request('GET', 'http://54.205.181.130:84/api/proposal/' . $travel_info->id_travel . '/travel', [
+                            'headers' => [
+                                'Authorization' => 'Bearer ' . $bearerToken,
+                                'Accept' => 'application/json',
+                            ],
+                        ]);
+                        if ($response->getStatusCode() == 200) {
+                            $user = json_decode($response->getBody(), true);
+                            $travel_info->user = $user;
+                        } else {
+                            $travel_info->user = ['error' => 'Usuário não encontrado'];
+                        }
+                    } catch (\Exception $e) {
+                        $travel_info->user = ['error' => 'Falha ao buscar o usuário'];
+                        \Log::error("Erro ao carregar usuário: {$e->getMessage()}");
+                    }
+                } else {
+                    $travel_info->user = null;
+                }
+            });
+
             return response()->json([
                 'message' => 'Pacotes não enviados!',
                 'travel' => $travel
