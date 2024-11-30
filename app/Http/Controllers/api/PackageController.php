@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\DB;
 
 class PackageController extends Controller
 {
+    public function updateSend($travel_id)
+    {
+        try {
+            Travel::where('id_travel', '=', $travel_id)
+                ->update(['sent' => true]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error has occurred',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
     public function getTravel($travel_id)
     {
         try {
