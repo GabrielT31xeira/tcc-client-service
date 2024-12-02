@@ -118,7 +118,7 @@ class PackageController extends Controller
             });
 
             return response()->json([
-                'message' => 'Pacotes não enviados!',
+                'message' => 'Pacotes enviados!',
                 'travel' => $travel
             ]);
         } catch (\Exception $e) {
