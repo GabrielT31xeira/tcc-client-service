@@ -96,7 +96,7 @@ class PackageController extends Controller
             $travel->map(function ($travel_info) use ($client, $bearerToken) {
                 if (isset($travel_info->id_travel)) {
                     try {
-                        $response = $client->request('GET', 'http://54.205.181.130:84/api/proposal/' . $travel_info->id_travel . '/travel', [
+                        $response = $client->request('GET', 'http://3.145.106.138:84/api/proposal/' . $travel_info->id_travel . '/travel', [
                             'headers' => [
                                 'Authorization' => 'Bearer ' . $bearerToken,
                                 'Accept' => 'application/json',
